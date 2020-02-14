@@ -1,6 +1,6 @@
 ﻿namespace sc
 {
-    using global::sc.Diagnostics;
+    using sc.Diagnostics;
     using System.Collections.Generic;
     using System.IO;
 
@@ -14,10 +14,9 @@
         public static bool Compile(string file, string assemblyName, IDiagnostics diag)
         {
             var reader = new StreamReader(file);
-            var scanner = new Scanner(reader);
-            var symbolTable = new Table(References);
-            var emit = new Emit(assemblyName, symbolTable);
-            var parser = new Parser(scanner, emit, symbolTable, diag);
+            var lexer = new Lexer(reader);
+            var emit = new Emit(assemblyName);
+            var parser = new Parser(lexer, diag);
 
             diag.BeginSourceFile(file);
             bool isProgram = parser.Parse(out var syntaxTree);

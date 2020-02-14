@@ -13,13 +13,11 @@
 		private ILGenerator il;
 		private ILGenerator il_cctor;
 		private readonly string executableName;
-		private readonly Table symbolTable;
 		private bool isMain;
 		private bool haveMainMethod;
 
-		public Emit(string name, Table symbolTable)
+		public Emit(string name)
 		{
-			this.symbolTable = symbolTable;
 			executableName = name;
 			AssemblyName assemblyName = new AssemblyName();
 			assemblyName.Name = Path.GetFileNameWithoutExtension(name);
@@ -49,12 +47,12 @@
 		public TypeBuilder DefineStructure(string name)
 		{
 			return Module.DefineType(name, 
-				TypeAttributes.Sealed | 
-				TypeAttributes.SequentialLayout | 
+				TypeAttributes.Class | 
+				TypeAttributes.AutoLayout | 
 				TypeAttributes.Public | 
 				TypeAttributes.AnsiClass | 
 				TypeAttributes.Serializable,
-				typeof(ValueType));
+				typeof(object));
 		}
 
 		public TypeBuilder DefineUnion(string name)

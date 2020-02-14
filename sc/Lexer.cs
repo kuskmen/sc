@@ -4,7 +4,7 @@
     using System.IO;
     using System.Text;
 
-    public class Scanner
+    public class Lexer
     {
         const char EOF = '\u001a';
         const char CR = '\r';
@@ -30,7 +30,7 @@
 
         public bool SkipComments { get; set; } = true;
 
-        public Scanner(TextReader reader)
+        public Lexer(TextReader reader)
         {
             this.reader = reader;
             this.line = 1;
@@ -70,7 +70,7 @@
             };
         }
 
-        public SyntaxToken Next()
+        public SyntaxToken Lex()
         {
             while (true)
             {

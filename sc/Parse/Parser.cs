@@ -1,27 +1,17 @@
 ﻿namespace sc
 {
-    using global::sc.Diagnostics;
-    using global::sc.Parse.Units;
-    using System.Collections.Generic;
-    using System.Reflection.Emit;
+    using sc.Diagnostics;
+    using sc.Parse.Units;
 
     public class Parser
     {
-        private readonly Scanner scanner;
-        private readonly Emit emit;
-        private readonly Table unitTable;
+        private readonly Lexer lexer;
         private SyntaxToken token;
         private readonly IDiagnostics diag;
 
-        private readonly Stack<Label> breakStack = new Stack<Label>();
-        private readonly Stack<Label> continueStack = new Stack<Label>();
-
-
-        public Parser(Scanner scanner, Emit emit, Table symbolTable, IDiagnostics diag)
+        public Parser(Lexer lexer, IDiagnostics diag)
         {
-            this.scanner = scanner;
-            this.emit = emit;
-            this.unitTable = symbolTable;
+            this.lexer = lexer;
             this.diag = diag;
         }
 
@@ -33,7 +23,7 @@
 
         public void ReadNextToken()
         {
-            token = scanner.Next();
+            token = lexer.Lex();
         }
 
         public bool CheckToken(SyntaxKind kind)
@@ -47,33 +37,23 @@
             return false;
         }
 
-        void SkipUntilSemiColon()
-        {
-            //IToken Tok;
-            //do
-            //{
-            //    Tok = scanner.Next();
-            //} while (!((Tok is EOFToken) ||
-            //             (Tok is SpecialSymbolToken) && ((Tok as SpecialSymbolToken).Value == ";")));
-            //scanner.Next();
-        }
-
         public void Error(string message)
         {
             diag.Error(token.Line, token.Column, message);
-            SkipUntilSemiColon();
         }
 
         // [1] Program = {Declaration | FunctionDefinition}.
         private bool IsProgram(out Program program)
         {
             program = new Program();
-            while (!(token.Kind == SyntaxKind.EndOfFileToken) && (ParseDeclaration(out var declaration) || ParseFunctionDefinition(out var functionDefinition)))
+            while (!(token.Kind == SyntaxKind.EndOfFileToken))
             {
-                // globalScope.Add(functionDefinition);
-
-                program.AddChild(declaration);
-                // program.FunctionDefinition = functionDefinition;
+                if (ParseDeclaration(out var declaration))
+                    program.AddChild(declaration);
+                else if (ParseFunctionDefinition(out var functionDefinition))
+                    program.AddChild(functionDefinition);
+                else
+                    break;
             }
             
             return diag.GetErrorCount() == 0;
@@ -189,7 +169,6 @@
             out StructDeclarationSyntax structDeclaration)
         {
             structDeclaration = new StructDeclarationSyntax();
-            var structDeclarationScope = unitTable.BeginScope();
             
             if (!IsTypeSpecifier(out var typeSpecifier)) return false;
             structDeclaration.TypeSpecifier = typeSpecifier;
@@ -211,10 +190,6 @@
 
             // emit.AddField(declarationInfo.Id.Value, type, arraySize);
 
-
-            structDeclarationScope.Add(structDeclaration);
-
-            unitTable.EndScope();
             return true;
         }
 
@@ -231,7 +206,6 @@
             }
 
             if (!CheckToken(SyntaxKind.OpenBracketToken)) return false;
-            unitTable.BeginScope();
             if (!IsEnumerator(out var enumerator)) return false;
             enumSpecifier.Enumerators.Add(enumerator);
 
@@ -240,7 +214,6 @@
                 if (!IsEnumerator(out var enumerator1)) return false;
                 enumSpecifier.Enumerators.Add(enumerator1);
             }
-            unitTable.EndScope();
             if (!CheckToken(SyntaxKind.ClosingBracketToken)) return false;
 
             return true;

@@ -66,29 +66,29 @@ namespace sc.Tests
         {
             StreamReader reader = new StreamReader(currentSourceFile);
 
-            Scanner scanner = new Scanner(reader);
+            Lexer scanner = new Lexer(reader);
             scanner.SkipComments = false;
-            Scanner CommentScanner;
-            var t = scanner.Next();
+            Lexer CommentScanner;
+            var t = scanner.Lex();
 
             while (!(t.Kind == SyntaxKind.EndOfFileToken))
             {
                 if (t.Kind == SyntaxKind.CommentToken)
                 {
-                    CommentScanner = new Scanner(new StringReader((string)t.Value));
-                    var ErrorMessage = CommentScanner.Next();
+                    CommentScanner = new Lexer(new StringReader((string)t.Value));
+                    var ErrorMessage = CommentScanner.Lex();
                     do
                     {
                         if ((ErrorMessage.Kind == SyntaxKind.IdentifierToken) && ErrorMessage.Value == "expectederror")
-                            ErrorMessage = CommentScanner.Next();
+                            ErrorMessage = CommentScanner.Lex();
 
                         if (ErrorMessage.Kind == SyntaxKind.StringToken)
                             ExpectedErrors.Add(new DiagnosticItem(t.Line, (string)ErrorMessage.Value));
 
-                        ErrorMessage = CommentScanner.Next();
+                        ErrorMessage = CommentScanner.Lex();
                     } while (!(ErrorMessage.Kind == SyntaxKind.EndOfFileToken));
                 }
-                t = scanner.Next();
+                t = scanner.Lex();
             }
         }
 
