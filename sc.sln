@@ -1,0 +1,57 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29613.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "sc", "sc\sc.csproj", "{5BB4DCA0-ED7F-4C0C-861A-1B4C02BE2597}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "sc.Tests", "sc.Tests\sc.Tests.csproj", "{C951B3E3-7624-4740-8ED8-40C2E9608423}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FE7565F1-B2F7-44CB-8D61-A4E9641A5058}"
+	ProjectSection(SolutionItems) = preProject
+		Simple-C-5.TXT = Simple-C-5.TXT
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5BB4DCA0-ED7F-4C0C-861A-1B4C02BE2597}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BB4DCA0-ED7F-4C0C-861A-1B4C02BE2597}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BB4DCA0-ED7F-4C0C-861A-1B4C02BE2597}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BB4DCA0-ED7F-4C0C-861A-1B4C02BE2597}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C951B3E3-7624-4740-8ED8-40C2E9608423}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C951B3E3-7624-4740-8ED8-40C2E9608423}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C951B3E3-7624-4740-8ED8-40C2E9608423}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C951B3E3-7624-4740-8ED8-40C2E9608423}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F3EA289F-9360-42EC-A6EC-909A22EEE91C}
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = scsc.csproj
+		Policies = $0
+		$0.TextStylePolicy = $1
+		$1.inheritsSet = null
+		$1.scope = text/x-csharp
+		$0.CSharpFormattingPolicy = $2
+		$2.IndentSwitchBody = True
+		$2.BeforeMethodDeclarationParentheses = False
+		$2.BeforeMethodCallParentheses = False
+		$2.BeforeConstructorDeclarationParentheses = False
+		$2.BeforeIndexerDeclarationBracket = False
+		$2.BeforeDelegateDeclarationParentheses = False
+		$2.NewParentheses = False
+		$2.SpacesBeforeBrackets = False
+		$2.inheritsSet = Mono
+		$2.inheritsScope = text/x-csharp
+		$2.scope = text/x-csharp
+		$0.StandardHeader = $3
+		$3.IncludeInNewFiles = True
+	EndGlobalSection
+EndGlobal
